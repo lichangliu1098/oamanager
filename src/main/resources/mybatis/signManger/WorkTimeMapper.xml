@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.signManger.workTime.mapper.WorkTimeMapper">
+    
+    <resultMap type="WorkTime" id="WorkTimeResult">
+        <result property="worktimeId"    column="worktime_id"    />
+        <result property="ondutyTime"    column="onDuty_time"    />
+        <result property="offdutyTime"    column="offDuty_time"    />
+    </resultMap>
+    
+    <select id="selectWorkTimeById" parameterType="Integer" resultMap="WorkTimeResult">
+        select worktime_id, onDuty_time, offDuty_time from work_time
+        where worktime_id = #{worktimeId}
+    </select>
+    
+    <select id="selectWorkTimeList" parameterType="WorkTime" resultMap="WorkTimeResult">
+        select worktime_id, onDuty_time, offDuty_time from work_time
+        <where>  
+            <if test="worktimeId != null and worktimeId != ''"> and worktime_id = #{worktimeId}</if>
+             <if test="ondutyTime != null and ondutyTime != ''"> and onDuty_time = #{ondutyTime}</if>
+             <if test="offdutyTime != null and offdutyTime != ''"> and offDuty_time = #{offdutyTime}</if>
+         </where>
+    </select>
+    
+    <insert id="insertWorkTime" parameterType="WorkTime">
+        insert into work_time (
+			<if test="worktimeId != null and worktimeId != '' ">worktime_id, </if>
+			<if test="ondutyTime != null and ondutyTime != '' ">onDuty_time, </if>
+			<if test="offdutyTime != null and offdutyTime != '' ">offDuty_time</if>
+        )values(
+			<if test="worktimeId != null and worktimeId != ''">#{worktimeId}, </if>
+			<if test="ondutyTime != null and ondutyTime != ''">#{ondutyTime}, </if>
+			<if test="offdutyTime != null and offdutyTime != ''">#{offdutyTime}</if>
+		)
+    </insert>
+	 
+    <update id="updateWorkTime" parameterType="WorkTime">
+        update work_time 
+        <set>
+            <if test="ondutyTime != null and ondutyTime != ''">onDuty_time = #{ondutyTime}, </if>
+            <if test="offdutyTime != null and offdutyTime != ''">offDuty_time = #{offdutyTime}</if>
+        </set>
+        where worktime_id = #{worktimeId}
+    </update>
+	
+    <delete id="deleteWorkTimeByIds" parameterType="Integer">
+        delete from work_time where worktime_id in 
+        <foreach item="worktimeId" collection="array" open="(" separator="," close=")">
+            #{worktimeId}
+        </foreach>
+    </delete>
+    
+</mapper>

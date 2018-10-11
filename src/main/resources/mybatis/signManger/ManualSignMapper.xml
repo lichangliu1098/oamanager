@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.signManger.manualSign.mapper.ManualSignMapper">
+    
+    <resultMap type="ManualSign" id="ManualSignResult">
+        <result property="signId"    column="sign_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="signTime"    column="sign_time"    />
+        <result property="signDesc"    column="sign_desc"    />
+        <result property="signTag"    column="sign_tag"    />
+    </resultMap>
+    
+    <select id="selectManualSignById" parameterType="Integer" resultMap="ManualSignResult">
+        select sign_id, user_id, sign_time, sign_desc, sign_tag from manual_sign
+        where sign_id = #{signId}
+    </select>
+    
+    <select id="selectManualSignList" parameterType="ManualSign" resultMap="ManualSignResult">
+        select sign_id, user_id, sign_time, sign_desc, sign_tag from manual_sign
+        <where>  
+            <if test="signId != null and signId != ''"> and sign_id = #{signId}</if>
+             <if test="userId != null and userId != ''"> and user_id = #{userId}</if>
+             <if test="signTime != null and signTime != ''"> and sign_time = #{signTime}</if>
+             <if test="signDesc != null and signDesc != ''"> and sign_desc = #{signDesc}</if>
+             <if test="signTag != null and signTag != ''"> and sign_tag = #{signTag}</if>
+         </where>
+    </select>
+    
+    <insert id="insertManualSign" parameterType="ManualSign">
+        insert into manual_sign (
+			<if test="signId != null and signId != '' ">sign_id, </if>
+			<if test="userId != null and userId != '' ">user_id, </if>
+			<if test="signTime != null and signTime != '' ">sign_time, </if>
+			<if test="signDesc != null and signDesc != '' ">sign_desc, </if>
+			<if test="signTag != null and signTag != '' ">sign_tag</if>
+        )values(
+			<if test="signId != null and signId != ''">#{signId}, </if>
+			<if test="userId != null and userId != ''">#{userId}, </if>
+			<if test="signTime != null and signTime != ''">#{signTime}, </if>
+			<if test="signDesc != null and signDesc != ''">#{signDesc}, </if>
+			<if test="signTag != null and signTag != ''">#{signTag}</if>
+		)
+    </insert>
+	 
+    <update id="updateManualSign" parameterType="ManualSign">
+        update manual_sign 
+        <set>
+            <if test="userId != null and userId != ''">user_id = #{userId}, </if>
+            <if test="signTime != null and signTime != ''">sign_time = #{signTime}, </if>
+            <if test="signDesc != null and signDesc != ''">sign_desc = #{signDesc}, </if>
+            <if test="signTag != null and signTag != ''">sign_tag = #{signTag}</if>
+        </set>
+        where sign_id = #{signId}
+    </update>
+	
+    <delete id="deleteManualSignByIds" parameterType="Integer">
+        delete from manual_sign where sign_id in 
+        <foreach item="signId" collection="array" open="(" separator="," close=")">
+            #{signId}
+        </foreach>
+    </delete>
+    
+</mapper>
