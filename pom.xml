@@ -36,6 +36,7 @@
 		<kaptcha.version>2.3.2</kaptcha.version>
 		<swagger.version>2.7.0</swagger.version>
 		<jsoup.version>1.11.3</jsoup.version>
+		<project.basedir>RuoYi</project.basedir>
 	</properties>
 
 	<dependencies>
@@ -277,6 +278,16 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>static/fonts/**</include>
+				</includes>
+			</resource>
+		</resources>
+
 	</build>
 
 	<repositories>

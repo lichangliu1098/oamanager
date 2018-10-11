@@ -2,7 +2,9 @@
 <html  lang="zh" xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
-<link href="/ajax/libs/datapicker/datepicker3.css" th:href="@{/ajax/libs/datapicker/datepicker3.css}" rel="stylesheet"/>
+<!--<link href="/ajax/libs/datapicker/datepicker3.css" th:href="@{/ajax/libs/datapicker/datepicker3.css}" rel="stylesheet"/>-->
+<link href="/ajax/libs/datetimepicker/css/bootstrap-datetimepicker.css" th:href="@{/ajax/libs/datetimepicker/css/bootstrap-datetimepicker.css}" rel="stylesheet"/>
+<link href="/ajax/libs/datetimepicker/css/bootstrap-datetimepicker.min.css" th:href="@{/ajax/libs/datetimepicker/css/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
         <form class="form-horizontal m" id="form-workTime-add">
@@ -10,12 +12,11 @@
 				<label class="col-sm-3 control-label">上班时间：</label>
 				<div class="col-sm-8">
 					<div class="form-group">
-						<div class="input-group date">
+						<div class="input-group date" id="datetimepicker">
 							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							<input type="text" class="form-control" id="ondutyTime" name="ondutyTime" value="">
 						</div>
 					</div>
-					<!--<input id="ondutyTime" name="ondutyTime" class="form-control" type="text">-->
 				</div>
 			</div>
 			<div class="form-group">	
@@ -27,7 +28,6 @@
 							<input type="text" class="form-control" id="offdutyTime" name="offdutyTime" value="">
 						</div>
 					</div>
-					<!--<input id="offdutyTime" name="offdutyTime" class="form-control" type="text">-->
 				</div>
 			</div>
 			<div class="form-group">
@@ -39,7 +39,11 @@
 		</form>
 	</div>
     <div th:include="include::footer"></div>
-	<script th:src="@{/ajax/libs//datapicker/bootstrap-datepicker.js}"></script>
+	<!--<script th:src="@{/ajax/libs/datapicker/bootstrap-datepicker.js}"></script>-->
+	<script th:src="@{/ajax/libs/datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+	<script th:src="@{/ajax/libs/datetimepicker/js/bootstrap-datetimepicker.min.js}"></script>
+	<script th:src="@{/ajax/libs/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js}"></script>
+
     <script type="text/javascript">
 		var prefix = ctx + "signManger/workTime"
 		$("#form-workTime-add").validate({
@@ -52,7 +56,15 @@
 				$.operate.save(prefix + "/save", $('#form-workTime-add').serialize());
 			}
 		});
-        $(".input-group.date").datepicker({todayBtn: "linked",keyboardNavigation: !1,forceParse: !1,calendarWeeks: !0,autoclose: !0});
+        $(".input-group.date").datetimepicker({
+            format: "yyyy-mm-dd - hh:ii:ss",
+			language:"zh-CN",
+            todayBtn: "linked",
+			keyboardNavigation: !1,
+			forceParse: !1,
+			calendarWeeks: !0,
+			autoclose: !0
+        });
 	</script>
 </body>
 </html>
